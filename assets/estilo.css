@@ -1,0 +1,278 @@
+/* ============================================
+   Visual do site do jogo de sobrevivência
+   As cores ficam aqui no topo: troque à vontade.
+   ============================================ */
+:root {
+  --fundo: #15140f;
+  --fundo-2: #1f1d16;
+  --cartao: #26231a;
+  --borda: #3a3527;
+  --texto: #e8e2d0;
+  --texto-suave: #a9a28c;
+  --destaque: #d9822b;   /* laranja ferrugem */
+  --destaque-2: #8a9a5b; /* verde musgo */
+  --raio: 10px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--fundo);
+  color: var(--texto);
+  font-family: "Source Sans 3", system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  font-family: "Oswald", Impact, sans-serif;
+  letter-spacing: 0.02em;
+  line-height: 1.15;
+  margin: 0 0 0.4em;
+}
+
+a { color: var(--destaque); }
+
+code {
+  background: var(--fundo-2);
+  border: 1px solid var(--borda);
+  border-radius: 4px;
+  padding: 0.05em 0.35em;
+  font-size: 0.9em;
+}
+
+/* ---------- Topo ---------- */
+.topo {
+  background:
+    linear-gradient(180deg, rgba(21,20,15,0.2), var(--fundo)),
+    repeating-linear-gradient(135deg, #1c1a13 0 14px, #191710 14px 28px);
+  border-bottom: 1px solid var(--borda);
+}
+.topo-conteudo {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 72px 24px 40px;
+}
+.selo {
+  display: inline-block;
+  margin: 0 0 14px;
+  padding: 3px 10px;
+  border: 1px solid var(--destaque);
+  border-radius: 999px;
+  color: var(--destaque);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.topo h1 {
+  font-size: clamp(2.4rem, 6vw, 4.2rem);
+  text-transform: uppercase;
+}
+.subtitulo {
+  color: var(--texto-suave);
+  font-size: 1.15rem;
+  margin: 0;
+}
+.menu {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 10px 16px;
+  background: rgba(21,20,15,0.92);
+  backdrop-filter: blur(6px);
+  border-top: 1px solid var(--borda);
+}
+.menu a {
+  color: var(--texto);
+  text-decoration: none;
+  font-family: "Oswald", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 6px 14px;
+  border-radius: 6px;
+}
+.menu a:hover { background: var(--cartao); color: var(--destaque); }
+
+/* ---------- Seções ---------- */
+main { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.secao { padding: 64px 0 24px; scroll-margin-top: 50px; }
+.secao h2 {
+  font-size: 2rem;
+  text-transform: uppercase;
+  padding-bottom: 10px;
+  margin-bottom: 28px;
+  border-bottom: 2px solid var(--borda);
+  position: relative;
+}
+.secao h2::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -2px;
+  width: 64px; height: 2px;
+  background: var(--destaque);
+}
+.vazio { color: var(--texto-suave); font-style: italic; }
+.texto p { margin: 0 0 0.8em; }
+.texto p:last-child { margin-bottom: 0; }
+
+/* ---------- História (linha do tempo) ---------- */
+.linha-tempo { position: relative; padding-left: 8px; }
+.linha-tempo::before {
+  content: "";
+  position: absolute;
+  left: 27px; top: 8px; bottom: 8px;
+  width: 2px;
+  background: var(--borda);
+}
+.capitulo {
+  position: relative;
+  display: flex;
+  gap: 22px;
+  margin-bottom: 36px;
+}
+.numero {
+  flex: 0 0 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--fundo);
+  border: 2px solid var(--destaque);
+  color: var(--destaque);
+  font-family: "Oswald", sans-serif;
+  font-weight: 700;
+  z-index: 1;
+}
+.capitulo-texto {
+  flex: 1;
+  background: var(--cartao);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 20px 24px;
+}
+.capitulo-img {
+  width: 100%;
+  max-height: 340px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin: 6px 0 14px;
+}
+
+/* ---------- Cartões (personagens e ideias) ---------- */
+.grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+.cartao {
+  background: var(--cartao);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.cartao img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-bottom: 1px solid var(--borda);
+}
+.cartao-corpo { padding: 16px 18px 20px; }
+.cartao h3 { font-size: 1.35rem; }
+.etiqueta, .status {
+  display: inline-block;
+  margin: 0 6px 10px 0;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.etiqueta { background: rgba(217,130,43,0.15); color: var(--destaque); }
+.status   { background: rgba(138,154,91,0.18); color: var(--destaque-2); }
+
+/* ---------- Galeria ---------- */
+.galeria {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+.foto {
+  margin: 0;
+  background: var(--cartao);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  overflow: hidden;
+}
+.foto img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  display: block;
+}
+.foto figcaption { padding: 14px 16px 18px; }
+.foto figcaption strong {
+  display: block;
+  font-family: "Oswald", sans-serif;
+  font-size: 1.15rem;
+  margin-bottom: 4px;
+}
+.foto .texto { color: var(--texto-suave); }
+
+.abre-foto { cursor: zoom-in; transition: filter 0.2s; }
+.abre-foto:hover { filter: brightness(1.12); }
+
+/* ---------- Visor de foto ---------- */
+.visor {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background: rgba(0,0,0,0.88);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  cursor: zoom-out;
+}
+.visor[hidden] { display: none; }
+.visor img {
+  max-width: 100%;
+  max-height: 82vh;
+  border-radius: 6px;
+  cursor: default;
+}
+.visor p { color: var(--texto); margin-top: 12px; font-family: "Oswald", sans-serif; }
+.visor-fechar {
+  position: absolute;
+  top: 12px; right: 18px;
+  background: none;
+  border: 0;
+  color: var(--texto);
+  font-size: 2.4rem;
+  cursor: pointer;
+}
+
+/* ---------- Rodapé ---------- */
+.rodape {
+  margin-top: 60px;
+  padding: 28px 24px;
+  text-align: center;
+  color: var(--texto-suave);
+  border-top: 1px solid var(--borda);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 600px) {
+  .topo-conteudo { padding-top: 48px; }
+  .capitulo { gap: 14px; }
+  .linha-tempo::before { left: 27px; }
+}

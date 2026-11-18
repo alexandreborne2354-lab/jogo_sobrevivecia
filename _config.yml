@@ -1,0 +1,29 @@
+# ============================================
+#  Configuração do site do jogo
+#  Você pode mudar o título e a frase abaixo.
+# ============================================
+
+title: "Jogo de Sobrevivência"
+subtitulo: "Caderno de ideias, história, personagens e imagens"
+
+# Endereço do site no GitHub Pages (nome do repositório)
+baseurl: "/jogo_sobrevivecia"
+
+lang: pt-BR
+markdown: kramdown
+
+# Cada pasta abaixo vira uma seção do site
+collections:
+  historia:
+    output: false
+  personagens:
+    output: false
+  ideias:
+    output: false
+  galeria:
+    output: false
+
+exclude:
+  - README.md
+  - modelos/
+  - .gitignore

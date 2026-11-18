@@ -1,0 +1,162 @@
+---
+---
+<!DOCTYPE html>
+<html lang="{{ site.lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ site.title }}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ '/assets/estilo.css' | relative_url }}">
+</head>
+<body>
+
+  <header class="topo">
+    <div class="topo-conteudo">
+      <p class="selo">Diário de desenvolvimento</p>
+      <h1>{{ site.title }}</h1>
+      <p class="subtitulo">{{ site.subtitulo }}</p>
+    </div>
+    <nav class="menu">
+      <a href="#historia">História</a>
+      <a href="#personagens">Personagens</a>
+      <a href="#ideias">Ideias</a>
+      <a href="#galeria">Galeria</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ===================== HISTÓRIA ===================== -->
+    <section id="historia" class="secao">
+      <h2>História</h2>
+      {% assign capitulos = site.historia | sort: "ordem", "last" %}
+      {% if capitulos.size > 0 %}
+        <div class="linha-tempo">
+          {% for cap in capitulos %}
+          <article class="capitulo">
+            <span class="numero">{% if cap.ordem %}{{ cap.ordem }}{% else %}•{% endif %}</span>
+            <div class="capitulo-texto">
+              <h3>{{ cap.titulo }}</h3>
+              {% if cap.imagem %}
+                <img class="capitulo-img abre-foto" src="{{ cap.imagem | relative_url }}" alt="{{ cap.titulo }}" data-legenda="{{ cap.titulo }}">
+              {% endif %}
+              <div class="texto">{{ cap.content | markdownify }}</div>
+            </div>
+          </article>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="vazio">Nenhum capítulo ainda. Adicione um arquivo na pasta <code>_historia</code>.</p>
+      {% endif %}
+    </section>
+
+    <!-- ===================== PERSONAGENS ===================== -->
+    <section id="personagens" class="secao">
+      <h2>Personagens</h2>
+      {% assign personagens = site.personagens | sort: "nome", "last" %}
+      {% if personagens.size > 0 %}
+        <div class="grade">
+          {% for p in personagens %}
+          <article class="cartao">
+            {% if p.imagem %}
+              <img class="abre-foto" src="{{ p.imagem | relative_url }}" alt="{{ p.nome }}" data-legenda="{{ p.nome }}">
+            {% endif %}
+            <div class="cartao-corpo">
+              <h3>{{ p.nome }}</h3>
+              {% if p.papel %}<p class="etiqueta">{{ p.papel }}</p>{% endif %}
+              <div class="texto">{{ p.content | markdownify }}</div>
+            </div>
+          </article>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="vazio">Nenhum personagem ainda. Adicione um arquivo na pasta <code>_personagens</code>.</p>
+      {% endif %}
+    </section>
+
+    <!-- ===================== IDEIAS ===================== -->
+    <section id="ideias" class="secao">
+      <h2>Ideias</h2>
+      {% assign ideias = site.ideias | sort: "titulo", "last" %}
+      {% if ideias.size > 0 %}
+        <div class="grade">
+          {% for ideia in ideias %}
+          <article class="cartao">
+            {% if ideia.imagem %}
+              <img class="abre-foto" src="{{ ideia.imagem | relative_url }}" alt="{{ ideia.titulo }}" data-legenda="{{ ideia.titulo }}">
+            {% endif %}
+            <div class="cartao-corpo">
+              <h3>{{ ideia.titulo }}</h3>
+              {% if ideia.categoria %}<p class="etiqueta">{{ ideia.categoria }}</p>{% endif %}
+              {% if ideia.status %}<p class="status">{{ ideia.status }}</p>{% endif %}
+              <div class="texto">{{ ideia.content | markdownify }}</div>
+            </div>
+          </article>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="vazio">Nenhuma ideia ainda. Adicione um arquivo na pasta <code>_ideias</code>.</p>
+      {% endif %}
+    </section>
+
+    <!-- ===================== GALERIA ===================== -->
+    <section id="galeria" class="secao">
+      <h2>Galeria</h2>
+      {% assign fotos = site.galeria | sort: "titulo", "last" %}
+      {% if fotos.size > 0 %}
+        <div class="galeria">
+          {% for foto in fotos %}
+          <figure class="foto">
+            <img class="abre-foto" src="{{ foto.imagem | relative_url }}" alt="{{ foto.titulo }}" data-legenda="{{ foto.titulo }}">
+            <figcaption>
+              <strong>{{ foto.titulo }}</strong>
+              <div class="texto">{{ foto.content | markdownify }}</div>
+            </figcaption>
+          </figure>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="vazio">Nenhuma foto ainda. Adicione um arquivo na pasta <code>_galeria</code>.</p>
+      {% endif %}
+    </section>
+
+  </main>
+
+  <footer class="rodape">
+    <p>{{ site.title }} · caderno de desenvolvimento</p>
+  </footer>
+
+  <!-- Janela para ver a foto em tamanho grande -->
+  <div id="visor" class="visor" hidden>
+    <button class="visor-fechar" aria-label="Fechar">×</button>
+    <img id="visor-img" alt="">
+    <p id="visor-legenda"></p>
+  </div>
+
+  <script>
+    (function () {
+      var visor = document.getElementById('visor');
+      var img = document.getElementById('visor-img');
+      var legenda = document.getElementById('visor-legenda');
+      document.querySelectorAll('.abre-foto').forEach(function (el) {
+        el.addEventListener('click', function () {
+          img.src = el.src;
+          img.alt = el.alt;
+          legenda.textContent = el.dataset.legenda || '';
+          visor.hidden = false;
+        });
+      });
+      function fechar() { visor.hidden = true; img.src = ''; }
+      visor.addEventListener('click', function (e) {
+        if (e.target !== img) fechar();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') fechar();
+      });
+    })();
+  </script>
+</body>
+</html>
